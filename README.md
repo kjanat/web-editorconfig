@@ -77,4 +77,6 @@ bun run postinstall
 
 ## License
 
-MIT
+[MIT]
+
+[MIT]: https://github.com/kjanat/web-editorconfig/blob/master/LICENSE
