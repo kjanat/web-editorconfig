@@ -35,12 +35,14 @@ bun run zip:firefox
 ### Load Extension
 
 **Chrome/Edge:**
+
 1. Navigate to `chrome://extensions`
 2. Enable "Developer mode"
 3. Click "Load unpacked"
 4. Select `.output/chrome-mv3` directory
 
 **Firefox:**
+
 1. Navigate to `about:debugging#/runtime/this-firefox`
 2. Click "Load Temporary Add-on"
 3. Select any file in `.output/firefox-mv2` directory

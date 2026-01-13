@@ -62,6 +62,7 @@ bun run postinstall     # or: wxt prepare
 ### No Test Framework Configured
 
 This project currently has no test runner. If adding tests:
+
 - Consider `vitest` for unit tests
 - Consider `@playwright/test` for E2E extension testing
 
@@ -106,8 +107,8 @@ import './app.css';
 
 ```svelte
 <script lang="ts">
-  let count = $state(0);
-  const doubled = $derived(count * 2);
+	let count = $state(0);
+	const doubled = $derived(count * 2);
 </script>
 ```
 
@@ -120,38 +121,38 @@ import './app.css';
 ```typescript
 // content.ts
 export default defineContentScript({
-  matches: ['*://github.com/*'],
-  main(ctx) {
-    // Content script logic
-  },
+	matches: ['*://github.com/*'],
+	main(ctx) {
+		// Content script logic
+	}
 });
 
 // background.ts
 export default defineBackground(() => {
-  // Background/service worker logic
+	// Background/service worker logic
 });
 ```
 
 ### Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Files (TS) | camelCase | `tabWidth.ts` |
-| Files (Svelte) | PascalCase | `Settings.svelte` |
-| Variables | camelCase | `tabWidth` |
-| Constants | UPPER_SNAKE | `DEFAULT_TAB_WIDTH` |
-| Types/Interfaces | PascalCase | `TabConfig` |
-| Functions | camelCase | `applyTabWidth()` |
-| CSS classes | kebab-case | `.tab-config` |
+| Type             | Convention  | Example             |
+| ---------------- | ----------- | ------------------- |
+| Files (TS)       | camelCase   | `tabWidth.ts`       |
+| Files (Svelte)   | PascalCase  | `Settings.svelte`   |
+| Variables        | camelCase   | `tabWidth`          |
+| Constants        | UPPER_SNAKE | `DEFAULT_TAB_WIDTH` |
+| Types/Interfaces | PascalCase  | `TabConfig`         |
+| Functions        | camelCase   | `applyTabWidth()`   |
+| CSS classes      | kebab-case  | `.tab-config`       |
 
 ### Error Handling
 
 ```typescript
 // Use try-catch with typed errors
 try {
-  await browser.storage.local.get('config');
+	await browser.storage.local.get('config');
 } catch (error) {
-  console.error('[web-editorconfig]', error);
+	console.error('[web-editorconfig]', error);
 }
 
 // Content scripts - guard against missing elements
@@ -168,7 +169,7 @@ if (!codeBlocks.length) return;
 ```typescript
 // No import needed - storage is auto-imported by WXT
 const tabWidth = storage.defineItem<number>('local:tabWidth', {
-  fallback: 4,
+	fallback: 4
 });
 
 // Usage
@@ -186,20 +187,20 @@ Target GitHub's code rendering elements:
 
 ```typescript
 export default defineContentScript({
-  matches: ['*://github.com/*'],
-  runAt: 'document_idle',
-  main() {
-    // GitHub uses .tab-size CSS property
-    // Inject style to override
-    const style = document.createElement('style');
-    style.textContent = `
+	matches: ['*://github.com/*'],
+	runAt: 'document_idle',
+	main() {
+		// GitHub uses .tab-size CSS property
+		// Inject style to override
+		const style = document.createElement('style');
+		style.textContent = `
       .blob-code, .highlight pre, .markdown-body pre {
         tab-size: 2 !important;
         -moz-tab-size: 2 !important;
       }
     `;
-    document.head.appendChild(style);
-  },
+		document.head.appendChild(style);
+	}
 });
 ```
 
@@ -210,7 +211,7 @@ GitHub uses Turbo/PJAX - observe navigation:
 ```typescript
 // Use MutationObserver or turbo:load event
 document.addEventListener('turbo:load', () => {
-  applyTabWidth();
+	applyTabWidth();
 });
 ```
 
@@ -218,11 +219,11 @@ document.addEventListener('turbo:load', () => {
 
 ## Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `wxt.config.ts` | WXT configuration (manifest generation) |
+| File            | Purpose                                          |
+| --------------- | ------------------------------------------------ |
+| `wxt.config.ts` | WXT configuration (manifest generation)          |
 | `tsconfig.json` | TypeScript config (extends `.wxt/tsconfig.json`) |
-| `package.json` | Dependencies and scripts |
+| `package.json`  | Dependencies and scripts                         |
 
 ### Manifest Configuration (wxt.config.ts)
 
@@ -230,13 +231,13 @@ document.addEventListener('turbo:load', () => {
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
-  srcDir: 'src',
-  modules: ['@wxt-dev/module-svelte'],
-  manifest: {
-    name: 'Web EditorConfig',
-    permissions: ['storage', 'activeTab'],
-    host_permissions: ['*://github.com/*'],
-  },
+	srcDir: 'src',
+	modules: ['@wxt-dev/module-svelte'],
+	manifest: {
+		name: 'Web EditorConfig',
+		permissions: ['storage', 'activeTab'],
+		host_permissions: ['*://github.com/*']
+	}
 });
 ```
 
@@ -254,12 +255,15 @@ export default defineConfig({
 ## Common Tasks
 
 ### Add a new content script
+
 Create `src/entrypoints/<name>.content.ts` - WXT auto-discovers entrypoints
 
 ### Add storage permission
+
 Update `wxt.config.ts` manifest.permissions array
 
 ### Add new popup page
+
 Modify `src/entrypoints/popup/` files or create new entrypoint
 
 ---
