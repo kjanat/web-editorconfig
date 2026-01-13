@@ -91,10 +91,10 @@ import Component from '~/lib/Component.svelte';
 ```typescript
 // Example ordering
 import { mount } from 'svelte';
-import { storage } from 'wxt/storage';
 import { someUtil } from '@/lib/utils';
 import App from './App.svelte';
 import './app.css';
+// Note: storage, browser, defineContentScript, etc. are auto-imported by WXT
 ```
 
 ### Svelte 5 Conventions
@@ -163,12 +163,10 @@ if (!codeBlocks.length) return;
 
 - Use `browser.*` API (WXT auto-polyfills for Chrome's `chrome.*`)
 - Prefer `storage.local` for large data, `storage.sync` for user prefs
-- WXT provides `wxt/storage` helper for typed storage
+- WXT auto-imports `storage`, `browser`, `defineContentScript`, `defineBackground`, etc.
 
 ```typescript
-import { storage } from 'wxt/storage';
-
-// Define typed storage item
+// No import needed - storage is auto-imported by WXT
 const tabWidth = storage.defineItem<number>('local:tabWidth', {
   fallback: 4,
 });

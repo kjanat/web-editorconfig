@@ -4,4 +4,9 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   srcDir: 'src',
   modules: ['@wxt-dev/module-svelte'],
+  manifest: {
+    name: 'Web EditorConfig',
+    description: 'Customize tab-width rendering on GitHub',
+    permissions: ['storage'],
+  },
 });
