@@ -1,4 +1,23 @@
 {
-	"formatter": "prettier",
-	"prettier": { "allowed": true }
+	"hard_tabs": true,
+	"tab_size": 2,
+	"formatter": [
+		{
+			"external": {
+				"command": "bunx",
+				"arguments": ["prettier", "--stdin-filepath", "{buffer_path}"]
+			}
+		},
+		// Use ESLint's --fix:
+		{ "code_action": "source.fixAll.eslint" },
+		// Organize imports on save:
+		{ "code_action": "source.organizeImports" }
+	],
+	"wrap_guides": [100],
+	"languages": {
+		"XML": { "wrap_guides": [100], "hard_tabs": true }
+	},
+	"lsp": {
+		"deno": { "settings": { "deno": { "enable": false } } }
+	}
 }

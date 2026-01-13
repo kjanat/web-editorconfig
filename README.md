@@ -1,6 +1,14 @@
+<a href="https://github.com/kjanat/web-editorconfig" title="Goto: Web EditorConfig's GitHub repository">
+  <img src="https://raw.githubusercontent.com/kjanat/web-editorconfig/master/public/icon.svg?token=GHSAT0AAAAAADS46XLTCZKVWEJG37WBLCCW2LG2DFQ" alt="Web EditorConfig" align="left" width="60" height="60"> <!--<img src="https://github.com/kjanat/web-editorconfig/blob/master/public/icon.svg" alt="Web EditorConfig" align="left" width="60" height="60">-->
+</a>
+
 # Web EditorConfig
 
-Browser extension for customizing tab-width rendering on GitHub and other code hosting platforms. Brings EditorConfig-like tab display preferences to your browser.
+I like tabs.  
+I hate GitHub's hardcoded tab width of 4 spaces.  
+I made this extension...
+
+This extension lets you customize the tab width rendering of GitHub code views.
 
 ## Features
 
@@ -11,74 +19,28 @@ Browser extension for customizing tab-width rendering on GitHub and other code h
 
 ## Installation
 
-### From Source
+Coming soon to Chrome Web Store and Firefox Add-ons.
 
-```bash
-# Install dependencies
-bun install
-
-# Development (Chrome)
-bun run dev
-
-# Development (Firefox)
-bun run dev:firefox
-
-# Production build
-bun run build
-bun run build:firefox
-
-# Create distributable zip
-bun run zip
-bun run zip:firefox
-```
-
-### Load Extension
-
-**Chrome/Edge:**
-
-1. Navigate to `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select `.output/chrome-mv3` directory
-
-**Firefox:**
-
-1. Navigate to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on"
-3. Select any file in `.output/firefox-mv2` directory
+For now, see [CONTRIBUTING.md] to build from source.
 
 ## Tech Stack
 
-- [WXT](https://wxt.dev) - Next-gen web extension framework
-- [Svelte 5](https://svelte.dev) - UI framework with runes
-- [TypeScript](https://www.typescriptlang.org) - Type safety
-
-## Project Structure
-
-```
-src/
-  entrypoints/       # Extension entry points
-    background.ts    # Service worker
-    content.ts       # Injected into web pages
-    popup/           # Browser action popup
-  lib/               # Shared components
-  assets/            # Static assets
-public/
-  icon/              # Extension icons
-```
-
-## Development
-
-```bash
-# Type checking
-bun run check
-
-# Prepare WXT types
-bun run postinstall
-```
+- [WXT] - Next-gen web extension framework
+- [Svelte 5] - UI framework with runes
+- [TypeScript] - Type safety
 
 ## License
 
 [MIT]
 
-[MIT]: https://github.com/kjanat/web-editorconfig/blob/master/LICENSE
+<!--link-definitions-start-->
+
+[CONTRIBUTING.md]: https://github.com/kjanat/web-editorconfig/blob/master/CONTRIBUTING.md 'Build from source instructions'
+[MIT]: https://github.com/kjanat/web-editorconfig/blob/master/LICENSE 'MIT License'
+[Svelte 5]: https://svelte.dev 'UI framework with runes'
+[TypeScript]: https://www.typescriptlang.org 'Type safety'
+[WXT]: https://wxt.dev 'Next-gen web extension framework'
+
+<!--link-definitions-end-->
+
+<!--markdownlint-disable-file MD033 MD041-->

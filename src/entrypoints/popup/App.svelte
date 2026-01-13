@@ -1,4 +1,5 @@
 <script lang="ts">
+	import iconUrl from '@/assets/icon.svg';
 	import { tabWidthState } from '@/lib/tab-width-state.svelte';
 
 	let inputValue = $state(tabWidthState.value);
@@ -20,7 +21,7 @@
 
 <main>
 	<div class="header">
-		<img src="/icon.svg" class="logo" alt="Web EditorConfig" />
+		<img src={iconUrl} class="logo" alt="Web EditorConfig" />
 		<h1>Web EditorConfig</h1>
 	</div>
 

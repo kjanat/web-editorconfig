@@ -1,7 +1,6 @@
 {
 	"name": "web-editorconfig",
-	"version": "0.1.0",
-	"private": true,
+	"version": "0.1.0+dev",
 	"description": "Browser extension for customizing tab-width rendering on GitHub",
 	"keywords": [
 		"browser-extension",
@@ -11,35 +10,59 @@
 		"wxt",
 		"svelte"
 	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kjanat/web-editorconfig"
-	},
+	"repository": "github:kjanat/web-editorconfig",
 	"license": "MIT",
-	"author": "kjanat",
+	"author": "Kaj Kowalski",
 	"type": "module",
 	"scripts": {
-		"build": "wxt build",
+		"build": "bun build:chrome & bun build:firefox & wait",
+		"build:chrome": "wxt build",
 		"build:firefox": "wxt build -b firefox",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"dev": "wxt",
+		"clean": "wxt clean",
+		"dev": "bun dev:chrome & bun dev:firefox & wait",
+		"dev:chrome": "wxt",
 		"dev:firefox": "wxt -b firefox",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
+		"format:watch": "onchange '**/*' -- prettier --write --ignore-unknown {{changed}}",
 		"postinstall": "wxt prepare",
-		"zip": "wxt zip",
+		"zip": "bun zip:chrome & bun zip:firefox & wait",
+		"zip:chrome": "wxt zip",
 		"zip:firefox": "wxt zip -b firefox"
 	},
+	"stylelint": {
+		"extends": [
+			"stylelint-config-standard"
+		]
+	},
+	"dependencies": {},
 	"devDependencies": {
+		"@awmottaz/prettier-plugin-void-html": "^2.0.0",
+		"@prettier/plugin-xml": "^3.4.2",
 		"@tsconfig/svelte": "^5.0.6",
+		"@wxt-dev/auto-icons": "^1.1.0",
 		"@wxt-dev/module-svelte": "^2.0.4",
+		"onchange": "^7.1.0",
 		"prettier": "^3.7.4",
+		"prettier-plugin-packagejson": "^2.5.21",
 		"prettier-plugin-svelte": "^3.4.0",
+		"stylelint-config-standard": "^39.0.1",
 		"svelte": "^5.46.0",
 		"svelte-check": "^4.3.4",
 		"tslib": "^2.8.1",
 		"typescript": "^5.9.3",
 		"wxt": "^0.20.6"
+	},
+	"publishConfig": {
+		"access": "public",
+		"tag": "beta"
+	},
+	"catalogs": {
+		"todo:move to catalogs": {},
+		"prettier": {},
+		"svelte": {},
+		"wxt": {}
 	},
 	"trustedDependencies": [
 		"spawn-sync"

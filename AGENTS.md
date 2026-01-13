@@ -1,6 +1,6 @@
 # AGENTS.md - AI Agent Guidelines for web-editorconfig
 
-Browser extension for customizing tab-width rendering on GitHub (editorconfig-like for browsers).
+Browser extension for customizing tab-width rendering on GitHub (editorconfig-like for browsers).\
 Built with **WXT** (Vite-based extension framework) + **Svelte 5** + **TypeScript**.
 
 ---
@@ -15,7 +15,7 @@ Built with **WXT** (Vite-based extension framework) + **Svelte 5** + **TypeScrip
 
 ### Directory Structure
 
-```
+```tree
 src/
   entrypoints/       # Extension entry points (WXT convention)
     background.ts    # Service worker / background script
@@ -27,8 +27,7 @@ src/
       app.css
   lib/               # Shared Svelte components
   assets/            # Static assets (images, svgs)
-public/              # Public assets copied to output
-  icon/              # Extension icons (16, 32, 48, 96, 128 px)
+public/              # DELETED: NOW HANDLED BY `@wxt-dev/auto-icons`
 .wxt/                # Generated WXT files (do not edit)
 .output/             # Build output (gitignored)
 ```
@@ -164,7 +163,8 @@ if (!codeBlocks.length) return;
 
 - Use `browser.*` API (WXT auto-polyfills for Chrome's `chrome.*`)
 - Prefer `storage.local` for large data, `storage.sync` for user prefs
-- WXT auto-imports `storage`, `browser`, `defineContentScript`, `defineBackground`, etc.
+- WXT auto-imports `storage`, `browser`, `defineContentScript`,
+  `defineBackground`, etc.
 
 ```typescript
 // No import needed - storage is auto-imported by WXT
@@ -246,8 +246,10 @@ export default defineConfig({
 ## Development Tips
 
 1. **Hot reload**: WXT dev server supports HMR for popup/options pages
-2. **Content script reload**: Save file to reload; may need extension reload for manifest changes
-3. **Debug**: Use browser DevTools on extension pages; for content scripts, inspect the page
+2. **Content script reload**: Save file to reload; may need extension reload for
+   manifest changes
+3. **Debug**: Use browser DevTools on extension pages; for content scripts,
+   inspect the page
 4. **Firefox**: Use `about:debugging` to load temporary extension
 
 ---
