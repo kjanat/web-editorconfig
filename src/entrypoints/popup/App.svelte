@@ -1,29 +1,20 @@
 <script lang="ts">
-  const tabWidthItem = storage.defineItem<number>('local:tabWidth', {
-    fallback: 4,
-  });
+  import { tabWidthState } from '@/lib/tab-width-state.svelte';
 
-  let tabWidth = $state(4);
+  let inputValue = $state(tabWidthState.value);
   let saved = $state(false);
 
+  // Sync input when store changes (e.g., from another context)
   $effect(() => {
-    tabWidthItem.getValue().then((v: number) => {
-      tabWidth = v;
-    });
+    inputValue = tabWidthState.value;
   });
 
   async function save() {
-    await tabWidthItem.setValue(tabWidth);
+    await tabWidthState.save(inputValue);
     saved = true;
     setTimeout(() => {
       saved = false;
     }, 1500);
-    
-    // Notify content script to update
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    if (tabs[0]?.id) {
-      browser.tabs.sendMessage(tabs[0].id, { type: 'updateTabWidth', value: tabWidth });
-    }
   }
 </script>
 
@@ -41,7 +32,7 @@
         id="tabwidth"
         min="1"
         max="16"
-        bind:value={tabWidth}
+        bind:value={inputValue}
       />
       <button onclick={save} class:saved>
         {saved ? 'Saved!' : 'Save'}

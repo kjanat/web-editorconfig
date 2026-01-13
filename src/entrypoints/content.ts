@@ -1,11 +1,9 @@
+import { tabWidthStore } from '@/lib/tab-width-store';
+
 export default defineContentScript({
   matches: ['*://github.com/*'],
   runAt: 'document_idle',
   async main(ctx) {
-    const tabWidthItem = storage.defineItem<number>('local:tabWidth', {
-      fallback: 4,
-    });
-
     function applyTabWidth(width: number) {
       let style = document.getElementById('web-editorconfig-tabwidth');
       if (!style) {
@@ -24,22 +22,27 @@ export default defineContentScript({
     }
 
     // Apply saved value on load
-    const savedWidth = await tabWidthItem.getValue();
+    const savedWidth = await tabWidthStore.getValue();
     applyTabWidth(savedWidth);
+
+    // Watch for storage changes (from popup or other contexts)
+    tabWidthStore.watch((newValue) => {
+      applyTabWidth(newValue ?? tabWidthStore.fallback);
+    });
 
     // Re-apply on GitHub SPA navigation (Turbo/PJAX)
     ctx.addEventListener(document, 'turbo:load', async () => {
-      const width = await tabWidthItem.getValue();
+      const width = await tabWidthStore.getValue();
       applyTabWidth(width);
     });
 
     // Also handle older pjax events (fallback)
     ctx.addEventListener(document, 'pjax:end', async () => {
-      const width = await tabWidthItem.getValue();
+      const width = await tabWidthStore.getValue();
       applyTabWidth(width);
     });
 
-    // Listen for updates from popup
+    // Listen for direct messages from popup (immediate update)
     browser.runtime.onMessage.addListener((message: { type: string; value: number }) => {
       if (message.type === 'updateTabWidth') {
         applyTabWidth(message.value);
