@@ -6,9 +6,8 @@ export default defineConfig({
 	srcDir: source,
 	autoIcons: {
 		baseIconPath: 'assets/icon.svg',
-		developmentIndicator: 'grayscale', // 'overlay',
-		enabled: true,
-		sizes: [128, 48, 32, 16]
+		developmentIndicator: 'overlay',
+		enabled: true
 	},
 	modules: ['@wxt-dev/module-svelte', '@wxt-dev/auto-icons'],
 	manifest: {
