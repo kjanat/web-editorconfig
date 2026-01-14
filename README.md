@@ -1,5 +1,5 @@
 <a href="https://github.com/kjanat/web-editorconfig" title="Goto: Web EditorConfig's GitHub repository">
-  <img src="https://raw.githubusercontent.com/kjanat/web-editorconfig/master/public/icon.svg?token=GHSAT0AAAAAADS46XLTCZKVWEJG37WBLCCW2LG2DFQ" alt="Web EditorConfig" align="left" width="60" height="60"> <!--<img src="https://github.com/kjanat/web-editorconfig/blob/master/public/icon.svg" alt="Web EditorConfig" align="left" width="60" height="60">-->
+  <img src="https://raw.githubusercontent.com/kjanat/web-editorconfig/master/src/assets/icon.svg" alt="Web EditorConfig" align="left" width="60" height="60"> <!--<img src="https://github.com/kjanat/web-editorconfig/blob/master/public/icon.svg" alt="Web EditorConfig" align="left" width="60" height="60">-->
 </a>
 
 # Web EditorConfig
@@ -22,6 +22,10 @@ This extension lets you customize the tab width rendering of GitHub code views.
 Coming soon to Chrome Web Store and Firefox Add-ons.
 
 For now, see [CONTRIBUTING.md] to build from source.
+
+## Privacy
+
+We collect nothing.
 
 ## Tech Stack
 
