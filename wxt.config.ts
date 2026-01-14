@@ -22,6 +22,12 @@ export default defineConfig({
 				}
 			} as { id: string; data_collection_permissions: { required: string[] } }
 		}
+	},
+	zip: {
+		// Exclude from extension ZIP
+		exclude: ['**/_*', '**/*.pem'],
+		// Exclude from sources ZIP (Firefox review)
+		excludeSources: ['**/_*', '**/*.pem']
 	}
 	// webExt: {
 	// 	keepProfileChanges: true,
