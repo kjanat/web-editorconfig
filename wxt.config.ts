@@ -6,15 +6,25 @@ export default defineConfig({
 	srcDir: source,
 	autoIcons: {
 		baseIconPath: 'assets/icon.svg',
-		developmentIndicator: 'overlay',
+		developmentIndicator: 'grayscale', // 'overlay',
 		enabled: true,
-		sizes: [256, 128, 96, 48, 32, 16]
+		sizes: [128, 48, 32, 16]
 	},
 	modules: ['@wxt-dev/module-svelte', '@wxt-dev/auto-icons'],
 	manifest: {
 		name: 'Web EditorConfig',
 		description: 'Customize tab-width rendering on GitHub',
 		permissions: ['storage']
+	},
+	webExt: {
+		keepProfileChanges: true,
+		binaries: {
+			// chrome: 'google-chrome-stable',
+			// chromium: 'chromium',
+			edge: 'microsoft-edge-stable'
+			// firefox: 'firefox'
+		}
+		// chromiumArgs: ['--user-data-dir=./.wxt/chrome-data']
 	}
 
 	// Optional: Pass options to the module:

@@ -20,7 +20,7 @@
 		"build:firefox": "wxt build -b firefox",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"clean": "wxt clean",
-		"dev": "bun dev:chrome & bun dev:firefox & wait",
+		"dev": "bun dev:chrome & bun dev:firefox -p 3030 & wait",
 		"dev:chrome": "wxt",
 		"dev:firefox": "wxt -b firefox",
 		"format": "prettier --write .",
