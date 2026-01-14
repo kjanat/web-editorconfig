@@ -22,17 +22,17 @@ export default defineConfig({
 				}
 			} as { id: string; data_collection_permissions: { required: string[] } }
 		}
-	},
-	webExt: {
-		keepProfileChanges: true,
-		binaries: {
-			// chrome: 'google-chrome-stable',
-			// chromium: 'chromium',
-			edge: 'microsoft-edge-stable'
-			// firefox: 'firefox'
-		}
-		// chromiumArgs: ['--user-data-dir=./.wxt/chrome-data']
 	}
+	// webExt: {
+	// 	keepProfileChanges: true,
+	// 	binaries: {
+	// 		// chrome: 'google-chrome-stable',
+	// 		// chromium: 'chromium',
+	// 		edge: 'microsoft-edge-stable'
+	// 		// firefox: 'firefox'
+	// 	}
+	// 	// chromiumArgs: ['--user-data-dir=./.wxt/chrome-data']
+	// }
 
 	// Optional: Pass options to the module:
 	// svelte: { vite: {} }
