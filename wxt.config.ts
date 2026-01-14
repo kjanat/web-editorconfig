@@ -27,7 +27,7 @@ export default defineConfig({
 		// Exclude from extension ZIP
 		exclude: ['**/_*', '**/*.pem'],
 		// Exclude from sources ZIP (Firefox review)
-		excludeSources: ['**/_*', '**/*.pem']
+		excludeSources: ['**/_*', '**/*.pem', '**/screenshots/**']
 	}
 	// webExt: {
 	// 	keepProfileChanges: true,

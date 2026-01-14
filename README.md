@@ -14,7 +14,7 @@ This extension lets you customize the tab width rendering of GitHub code views.
 [![badge:chrome web store:size]][store:chrome web store]
 
 <a href="#" title="Clicking on this image will do nothing, it's just decorative">
-  <img width="795" height="556" alt="Extension window" src="https://github.com/user-attachments/assets/736ec1f1-d94f-472c-8b47-be4786644050" />
+  <img width="795" height="556" alt="Extension window" src="https://raw.githubusercontent.com/kjanat/web-editorconfig/master/screenshots/extension.png" />
 </a>
 
 ## Features
