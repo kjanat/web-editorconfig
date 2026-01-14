@@ -13,7 +13,15 @@ export default defineConfig({
 	manifest: {
 		name: 'Web EditorConfig',
 		description: 'Customize tab-width rendering on GitHub',
-		permissions: ['storage']
+		permissions: ['storage'],
+		browser_specific_settings: {
+			gecko: {
+				id: 'web-editorconfig@kjanat.com',
+				data_collection_permissions: {
+					required: ['none']
+				}
+			} as { id: string; data_collection_permissions: { required: string[] } }
+		}
 	},
 	webExt: {
 		keepProfileChanges: true,
