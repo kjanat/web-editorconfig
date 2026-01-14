@@ -14,8 +14,8 @@ export default defineContentScript({
 			style.textContent = `
 				.blob-code, .highlight pre, .markdown-body pre, .react-code-lines, .react-blob-print-hide,
 				.CodeMirror pre, .cm-content, [class*="code-"] pre {
-					tab-size: ${width} !important;
-					-moz-tab-size: ${width} !important;
+					tab-size: ${String(width)} !important;
+					-moz-tab-size: ${String(width)} !important;
 				}
 			`;
 		}
@@ -26,19 +26,17 @@ export default defineContentScript({
 
 		// Watch for storage changes (from popup or other contexts)
 		tabWidthStore.watch((newValue) => {
-			applyTabWidth(newValue ?? tabWidthStore.fallback);
+			applyTabWidth(newValue);
 		});
 
 		// Re-apply on GitHub SPA navigation (Turbo/PJAX)
-		ctx.addEventListener(document, 'turbo:load', async () => {
-			const width = await tabWidthStore.getValue();
-			applyTabWidth(width);
+		ctx.addEventListener(document, 'turbo:load', () => {
+			void tabWidthStore.getValue().then(applyTabWidth);
 		});
 
 		// Also handle older pjax events (fallback)
-		ctx.addEventListener(document, 'pjax:end', async () => {
-			const width = await tabWidthStore.getValue();
-			applyTabWidth(width);
+		ctx.addEventListener(document, 'pjax:end', () => {
+			void tabWidthStore.getValue().then(applyTabWidth);
 		});
 
 		// Listen for direct messages from popup (immediate update)

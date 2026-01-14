@@ -30,6 +30,7 @@
 		"format:watch": "onchange '**/*' -- prettier --write --ignore-unknown {{changed}}",
 		"postinstall": "wxt prepare",
 		"key:getpub": "openssl rsa -in privatekey.pem -pubout",
+		"lint": "eslint .",
 		"postpack": "pack:chrome",
 		"pack:chrome": "google-chrome-stable --pack-extension=.output/chrome-mv3 --pack-extension-key=privatekey.pem",
 		"zip": "bun zip:chrome & bun zip:firefox & bun zip:edge & wait",
@@ -45,10 +46,17 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@awmottaz/prettier-plugin-void-html": "^2.0.0",
+		"@eslint/compat": "^1.4.0",
+		"@eslint/js": "^9.39.1",
 		"@prettier/plugin-xml": "^3.4.2",
 		"@tsconfig/svelte": "^5.0.6",
+		"@types/node": "^24",
 		"@wxt-dev/auto-icons": "^1.1.0",
 		"@wxt-dev/module-svelte": "^2.0.4",
+		"eslint": "^9.39.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.13.1",
+		"globals": "^16.5.0",
 		"onchange": "^7.1.0",
 		"prettier": "^3.7.4",
 		"prettier-plugin-packagejson": "^2.5.21",
@@ -58,6 +66,7 @@
 		"svelte-check": "^4.3.4",
 		"tslib": "^2.8.1",
 		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.48.1",
 		"wxt": "^0.20.6"
 	},
 	"engines": {

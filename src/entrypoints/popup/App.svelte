@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { on } from 'svelte/events';
 	import iconUrl from '@/assets/icon.svg';
 	import { tabWidthState } from '@/lib/tab-width-state.svelte';
 
-	const DIGIT_MAP: Record<number, string[]> = {
+	const DIGIT_MAP: Partial<Record<number, string[]>> = {
 		0: ['a', 'b', 'c', 'd', 'e', 'f'],
 		1: ['b', 'c'],
 		2: ['a', 'b', 'g', 'e', 'd'],
@@ -17,56 +18,48 @@
 
 	const DEFAULT_VALUE = 4;
 
-	let inputValue = $state(tabWidthState.value);
+	// Writable derived: syncs from store, saves on reassignment
+	let inputValue = $derived(tabWidthState.value);
 	let menuOpen = $state(false);
 
-	// Sync input when store changes
-	$effect(() => {
-		inputValue = tabWidthState.value;
-	});
-
-	// Auto-save on change
-	$effect(() => {
-		if (inputValue !== tabWidthState.value) {
-			tabWidthState.save(inputValue);
-		}
-	});
+	function setInputValue(value: number) {
+		inputValue = value;
+		void tabWidthState.save(value);
+	}
 
 	function getActiveSegments(value: number): Set<string> {
 		// Handle two digits
 		const ones = value % 10;
-		return new Set(DIGIT_MAP[ones] || []);
+		return new Set(DIGIT_MAP[ones] ?? []);
 	}
 
 	function getTensSegments(value: number): Set<string> | null {
 		if (value < 10) return null;
 		const tens = Math.floor(value / 10);
-		return new Set(DIGIT_MAP[tens] || []);
+		return new Set(DIGIT_MAP[tens] ?? []);
 	}
 
 	function decrement() {
-		inputValue = Math.max(1, inputValue - 1);
+		setInputValue(Math.max(1, inputValue - 1));
 	}
 
 	function increment() {
-		inputValue = Math.min(16, inputValue + 1);
+		setInputValue(Math.min(16, inputValue + 1));
 	}
 
 	function reset() {
-		inputValue = DEFAULT_VALUE;
+		setInputValue(DEFAULT_VALUE);
 		menuOpen = false;
 	}
 
 	$effect(() => {
 		if (!menuOpen) return;
-		const handler = (e: MouseEvent) => {
+		return on(document, 'click', (e: MouseEvent) => {
 			const target = e.target as HTMLElement;
 			if (!target.closest('.menu-container')) {
 				menuOpen = false;
 			}
-		};
-		document.addEventListener('click', handler);
-		return () => document.removeEventListener('click', handler);
+		});
 	});
 
 	const tensSegs = $derived(getTensSegments(inputValue));
@@ -76,12 +69,17 @@
 <main>
 	<div class="header">
 		<div class="header-title">
-			<img src={iconUrl} class="logo" alt="Web EditorConfig" />
+			<img class="logo" alt="Web EditorConfig" src={iconUrl} />
 			<h1>Web EditorConfig</h1>
 		</div>
 		<div class="menu-container">
-			<button class="menu-btn" onclick={() => (menuOpen = !menuOpen)} aria-label="Menu">
-				<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+			<button
+				class="menu-btn"
+				aria-label="Menu"
+				onclick={() => (menuOpen = !menuOpen)}
+				type="button"
+			>
+				<svg fill="currentColor" height="14" viewBox="0 0 16 16" width="14">
 					<circle cx="8" cy="2" r="1.5"></circle>
 					<circle cx="8" cy="8" r="1.5"></circle>
 					<circle cx="8" cy="14" r="1.5"></circle>
@@ -89,170 +87,173 @@
 			</button>
 			{#if menuOpen}
 				<div class="menu-dropdown">
-					<button onclick={reset}>Reset to default</button>
+					<button onclick={reset} type="button">Reset to default</button>
 				</div>
 			{/if}
 		</div>
 	</div>
 
 	<div class="setting">
-		<!-- svelte-ignore a11y_label_has_associated_control (decorative label for custom control) -->
-		<label>Tab Width</label>
+		<span class="label">Tab Width</span>
 		<div class="clock-display">
-			<button class="clock-btn" onclick={decrement} disabled={inputValue <= 1}>-</button>
+			<button class="clock-btn" disabled={inputValue <= 1} onclick={decrement} type="button"
+				>-</button
+			>
 			<div class="digits-row">
 				{#if tensSegs}
 					<div class="digit-container" aria-label={String(Math.floor(inputValue / 10))}>
-						<svg viewBox="0 0 80 140" class="digit-svg" aria-hidden="true">
+						<svg class="digit-svg" aria-hidden="true" viewBox="0 0 80 140">
 							<rect
 								class="seg"
 								class:on={tensSegs.has('a')}
-								x="16"
-								y="10"
+								height="10"
 								rx="4"
 								ry="4"
 								width="48"
-								height="10"
+								x="16"
+								y="10"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('b')}
-								x="64"
-								y="18"
+								height="52"
 								rx="4"
 								ry="4"
 								width="10"
-								height="52"
+								x="64"
+								y="18"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('c')}
-								x="64"
-								y="70"
+								height="52"
 								rx="4"
 								ry="4"
 								width="10"
-								height="52"
+								x="64"
+								y="70"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('d')}
-								x="16"
-								y="120"
+								height="10"
 								rx="4"
 								ry="4"
 								width="48"
-								height="10"
+								x="16"
+								y="120"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('e')}
-								x="6"
-								y="70"
+								height="52"
 								rx="4"
 								ry="4"
 								width="10"
-								height="52"
+								x="6"
+								y="70"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('f')}
-								x="6"
-								y="18"
+								height="52"
 								rx="4"
 								ry="4"
 								width="10"
-								height="52"
+								x="6"
+								y="18"
 							></rect>
 							<rect
 								class="seg"
 								class:on={tensSegs.has('g')}
-								x="16"
-								y="65"
+								height="10"
 								rx="4"
 								ry="4"
 								width="48"
-								height="10"
+								x="16"
+								y="65"
 							></rect>
 						</svg>
 					</div>
 				{/if}
 				<div class="digit-container" aria-label={String(inputValue % 10)}>
-					<svg viewBox="0 0 80 140" class="digit-svg" aria-hidden="true">
+					<svg class="digit-svg" aria-hidden="true" viewBox="0 0 80 140">
 						<rect
 							class="seg"
 							class:on={onesSegs.has('a')}
-							x="16"
-							y="10"
+							height="10"
 							rx="4"
 							ry="4"
 							width="48"
-							height="10"
+							x="16"
+							y="10"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('b')}
-							x="64"
-							y="18"
+							height="52"
 							rx="4"
 							ry="4"
 							width="10"
-							height="52"
+							x="64"
+							y="18"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('c')}
-							x="64"
-							y="70"
+							height="52"
 							rx="4"
 							ry="4"
 							width="10"
-							height="52"
+							x="64"
+							y="70"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('d')}
-							x="16"
-							y="120"
+							height="10"
 							rx="4"
 							ry="4"
 							width="48"
-							height="10"
+							x="16"
+							y="120"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('e')}
-							x="6"
-							y="70"
+							height="52"
 							rx="4"
 							ry="4"
 							width="10"
-							height="52"
+							x="6"
+							y="70"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('f')}
-							x="6"
-							y="18"
+							height="52"
 							rx="4"
 							ry="4"
 							width="10"
-							height="52"
+							x="6"
+							y="18"
 						></rect>
 						<rect
 							class="seg"
 							class:on={onesSegs.has('g')}
-							x="16"
-							y="65"
+							height="10"
 							rx="4"
 							ry="4"
 							width="48"
-							height="10"
+							x="16"
+							y="65"
 						></rect>
 					</svg>
 				</div>
 			</div>
-			<button class="clock-btn" onclick={increment} disabled={inputValue >= 16}>+</button>
+			<button class="clock-btn" disabled={inputValue >= 16} onclick={increment} type="button"
+				>+</button
+			>
 		</div>
 	</div>
 
@@ -369,7 +370,7 @@
 		align-items: center;
 	}
 
-	label {
+	.label {
 		display: block;
 		font-size: 0.7rem;
 		margin-bottom: 0.75rem;

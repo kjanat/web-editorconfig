@@ -4,7 +4,7 @@ class TabWidthState {
 	value = $state(tabWidthStore.fallback);
 
 	constructor() {
-		tabWidthStore.getValue().then(this.update);
+		void tabWidthStore.getValue().then(this.update);
 		tabWidthStore.watch(this.update);
 	}
 
