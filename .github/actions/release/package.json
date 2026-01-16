@@ -1,0 +1,13 @@
+{
+	"name": "release-action",
+	"version": "1.0.0+dev",
+	"type": "module",
+	"devDependencies": {
+		"@actions/github-script": "github:actions/github-script",
+		"@types/node": ">=24,<25",
+		"actions-toolkit": "^6.0.1"
+	},
+	"volta": {
+		"node": "24.13.0"
+	}
+}

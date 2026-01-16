@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+---
+name: XWT Build Action
+description: Builds the Web Extension Toolkit (XWT) package.
+inputs:
+  node-version:
+    description: The Node.js version to use.
+    required: false
+    default: '24'
+  private-key:
+    description: Private key for signing the extension packages.
+    required: false
+runs:
+  using: composite
+  steps:
+    - uses: oven-sh/setup-bun@v2
+    - uses: actions/setup-node@v6
+      with: { node-version: "${{ inputs['node-version'] }}" }
+    - uses: browser-actions/setup-chrome@v2
+      id: setup-chrome
+    - shell: bash
+      id: chrome-version
+      run: ${{ steps.setup-chrome.outputs.chrome-path }} --version | tee "${GITHUB_OUTPUTS}"
+    - name: Install
+      id: bun-install
+      shell: bash
+      run: bun install
+    - name: Zip extensions
+      id: zip
+      shell: bash
+      run: bun zip

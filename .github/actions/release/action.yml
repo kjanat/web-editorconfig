@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+---
+name: Release Action
+description: Creates GitHub Release and uploads browser extension assets.
+
+runs:
+  using: composite
+  steps:
+    - name: Create/Update Release + upload browser zips
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const { default: release } = await import('${{ github.workspace }}/.github/actions/release/src/index.js')
+          await release({ github, context, core, glob, io, exec, require })

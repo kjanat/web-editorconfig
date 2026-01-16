@@ -1,13 +1,43 @@
-import { defineConfig } from 'wxt';
-const source = 'src';
+import { defineConfig, type UserManifest } from 'wxt';
+
+const GITHUB_REPOSITORY = 'kjanat/web-editorconfig';
+const CHROME_WEB_STORE_ID = 'babmcedjjlfbkpffmpkhgkokgamaecgh';
+
+type firefoxSettings = UserManifest['browser_specific_settings']['gecko']
+	// = {	id: '' }
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-	srcDir: source,
+	srcDir: 'src',
+	imports: {
+		eslintrc: {
+			enabled: 9
+		}
+	},
+	webExt: {
+		chromiumPref: {
+			devtools: {
+				synced_preferences_sync_disabled: {
+					skipContentScripts: false
+				}
+			},
+			extensions: {
+				ui: {
+					developer_mode: true
+				}
+			}
+		},
+		chromiumArgs: [],
+		firefoxArgs: [
+			`--start-url ${GITHUB_REPOSITORY}`,
+			`--arg='--new-tab=chrome://extensions/?id=${CHROME_WEB_STORE_ID}'`
+		],
+		firefoxPrefs: {}
+	},
 	autoIcons: {
 		baseIconPath: 'assets/icon.svg',
 		developmentIndicator: 'overlay',
-		enabled: true
+		sizes: [512, 256, 128, 64, 32, 16]
 	},
 	modules: ['@wxt-dev/module-svelte', '@wxt-dev/auto-icons'],
 	manifest: {
@@ -17,18 +47,31 @@ export default defineConfig({
 		browser_specific_settings: {
 			gecko: {
 				id: 'web-editorconfig@kjanat.com',
-				data_collection_permissions: {
-					required: ['none']
-				}
-			} as { id: string; data_collection_permissions: { required: string[] } }
+				/*data_collection_permissions: {
+					required: [],
+					optional: []
+				} as unknown*/
+			} as UserManifest['browser_specific_settings']['gecko'] /*& {
+				data_collection_permissions: { required: string[]; optional: string[] };
+			}*/
 		}
 	},
 	zip: {
+		artifactTemplate: '{{name}}-{{version}}-{{browser}}-{{manifestVersion}}-{{mode}}.zip',
+		sourcesTemplate: '{{name}}-{{version}}-{{browser}}-{{manifestVersion}}-{{mode}}-sources.zip',
 		// Exclude from extension ZIP
 		exclude: ['**/_*', '**/*.pem'],
 		// Exclude from sources ZIP (Firefox review)
-		excludeSources: ['**/_*', '**/*.pem', '**/screenshots/**']
+		excludeSources: ['**/_*', '**/*.pem', '**/screenshots/**'],
+		// Set maximum compression level
+		compressionLevel: 9
+	},
+	analysis: {
+		enabled: true,
+		open: false,
+		template: 'treemap' // "sunburst" | "treemap" | "network" | "raw-data" | "list" | "flamegraph";
 	}
+
 	// webExt: {
 	// 	keepProfileChanges: true,
 	// 	binaries: {

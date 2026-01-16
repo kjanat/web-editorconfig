@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+---
+name: GitHub Release
+on: { workflow_dispatch: {} }
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment: publishing
+    permissions: { contents: write }
+    steps:
+      - { uses: actions/checkout@v6, id: checkout }
+      - { uses: ./.github/actions/xwt-build, id: build }
+      - name: Create/Update Release + upload browser zips
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path')
+
+            const { owner, repo } = context.repo
+            const tag = context.ref.replace('refs/tags/', '')
+
+            // 1) Find or create the release for this tag
+            let release
+            try {
+              const res = await github.rest.repos.getReleaseByTag({ owner, repo, tag })
+              release = res.data
+              core.info(`Found existing release: ${release.html_url}`)
+            } catch (e) {
+              if (e.status !== 404) throw e
+
+              const notes = await github.rest.repos.generateReleaseNotes({
+                owner,
+                repo,
+                tag_name: tag,
+              })
+
+              const res = await github.rest.repos.createRelease({
+                owner,
+                repo,
+                tag_name: tag,
+                name: tag,
+                body: notes.data.body ?? "",
+                draft: false,
+                prerelease: tag.includes('-'),
+              })
+
+              release = res.data
+              core.info(`Created release: ${release.html_url}`)
+            }
+
+            // 2) Use the INJECTED glob helper (no import needed)
+            const patterns = [
+              '.output/*-chrome.zip',
+              '.output/*-firefox.zip',
+              '.output/*-edge.zip',
+            ].join('\n')
+
+            const globber = await glob.create(patterns, { followSymbolicLinks: false })
+            const files = await globber.glob()
+
+            if (!files.length) {
+              core.setFailed(`No release assets found matching:\n${patterns}`)
+              return
+            }
+
+            core.info(`Uploading ${files.length} asset(s):\n- ${files.join('\n- ')}`)
+
+            // 3) Upload each zip
+            for (const file of files) {
+              const name = path.basename(file)
+              const data = fs.readFileSync(file)
+
+              await github.rest.repos.uploadReleaseAsset({
+                owner,
+                repo,
+                release_id: release.id,
+                name,
+                data,
+                headers: {
+                  'content-type': 'application/zip',
+                  'content-length': data.length,
+                },
+              })
+
+              core.notice(`Uploaded: ${name}`)
+            }

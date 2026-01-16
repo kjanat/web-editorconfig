@@ -1,7 +1,7 @@
 {
 	"$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/refs/heads/main/schema/markdownlint-config-schema.json",
 	"MD010": {
-		"ignore_code_languages": ["ts", "typescript", "svelte", "javascript"]
+		"ignore_code_languages": ["ts", "js", "typescript", "svelte", "javascript"]
 	},
 	"MD034": false,
 	"MD041": false
