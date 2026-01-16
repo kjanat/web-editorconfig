@@ -28,7 +28,13 @@ export default defineConfig({
 		exclude: ['**/_*', '**/*.pem'],
 		// Exclude from sources ZIP (Firefox review)
 		excludeSources: ['**/_*', '**/*.pem', '**/screenshots/**']
-	}
+	},
+	vite: () => ({
+		build: {
+			minify: process.env.UNMINIFIED === 'true' ? false : undefined,
+			cssMinify: process.env.UNMINIFIED === 'true' ? false : undefined
+		}
+	})
 	// webExt: {
 	// 	keepProfileChanges: true,
 	// 	binaries: {

@@ -18,13 +18,13 @@
 		"build": "bun build:chrome & bun build:firefox & bun build:edge & wait",
 		"build:chrome": "wxt build",
 		"build:edge": "wxt build -b edge",
-		"build:firefox": "wxt build -b firefox",
+		"build:firefox": "UNMINIFIED=true wxt build -b firefox --mv3",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"clean": "wxt clean",
 		"dev": "bun dev:chrome & bun dev:firefox -p 3030 & bun dev:edge -p 3050 & wait",
 		"dev:chrome": "wxt",
 		"dev:edge": "wxt -b edge",
-		"dev:firefox": "wxt -b firefox",
+		"dev:firefox": "wxt -b firefox --mv3",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"format:watch": "onchange '**/*' -- prettier --write --ignore-unknown {{changed}}",
@@ -36,7 +36,7 @@
 		"zip": "bun zip:chrome & bun zip:firefox & bun zip:edge & wait",
 		"zip:chrome": "wxt zip",
 		"zip:edge": "wxt zip -b edge",
-		"zip:firefox": "wxt zip -b firefox"
+		"zip:firefox": "wxt zip -b firefox --mv3"
 	},
 	"stylelint": {
 		"extends": [
