@@ -12,12 +12,18 @@ export default defineContentScript({
 				document.head.appendChild(style);
 			}
 			style.textContent = `
-				.blob-code, .highlight pre, .markdown-body pre, .react-code-lines, .react-blob-print-hide,
-				.CodeMirror pre, .cm-content, [class*="code-"] pre {
-					tab-size: ${String(width)} !important;
-					-moz-tab-size: ${String(width)} !important;
-				}
-			`;
+        .blob-code,
+        .highlight pre,
+        .markdown-body pre,
+        .react-code-lines,
+        .react-blob-print-hide,
+        .CodeMirror pre,
+        .cm-content,
+        [class*="code-"] pre {
+        	tab-size: ${String(width)} !important;
+        	-moz-tab-size: ${String(width)} !important;
+        }
+      `;
 		}
 
 		// Apply saved value on load
