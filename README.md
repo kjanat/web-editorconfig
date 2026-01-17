@@ -12,6 +12,9 @@ This extension lets you customize the tab width rendering of GitHub code views.
 
 [![badge:chrome web store:version]][store:chrome web store]
 [![badge:chrome web store:size]][store:chrome web store]
+[![badge:firefox web store:version]][store:firefox add-ons]
+
+<!-- [![badge:firefox web store:downloads]][store:firefox add-ons] -->
 
 <a href="#" title="Clicking on this image will do nothing, it's just decorative">
   <img width="795" height="556" alt="Extension window" src="https://raw.githubusercontent.com/kjanat/web-editorconfig/master/screenshots/extension.png" />
@@ -26,7 +29,10 @@ This extension lets you customize the tab width rendering of GitHub code views.
 
 ## Installation
 
-Coming soon to Firefox and Edge Add-ons.
+- [**Chrome Web Store**][store:chrome web store]
+- [**Firefox Add-Ons**][store:firefox add-ons]
+
+Coming soon to Edge Add-ons.
 
 For now, see [CONTRIBUTING.md] to build from source.
 
@@ -52,9 +58,13 @@ We collect nothing.
 [TypeScript]: https://www.typescriptlang.org 'Type safety'
 [WXT]: https://wxt.dev 'Next-gen web extension framework'
 [store:chrome web store]: https://chromewebstore.google.com/detail/babmcedjjlfbkpffmpkhgkokgamaecgh?utm_source=github 'Web EditorConfig on Chrome Web Store'
+[store:firefox add-ons]: https://addons.mozilla.org/firefox/addon/web-editorconfig/ 'Web EditorConfig on Firefox Add-ons'
 [badge:chrome web store:size]: https://img.shields.io/chrome-web-store/size/babmcedjjlfbkpffmpkhgkokgamaecgh?logoSize=auto&labelColor=%234285F4&color=black
 [badge:chrome web store:version]: https://img.shields.io/chrome-web-store/v/babmcedjjlfbkpffmpkhgkokgamaecgh?logo=chromewebstore&logoColor=white&logoSize=auto&labelColor=%234285F4&color=black
+[badge:firefox web store:version]: https://img.shields.io/amo/v/web-editorconfig?logo=firefox&logoColor=white&logoSize=auto&labelColor=%23FF7139&color=black
+
+<!-- [badge:firefox web store:downloads]: https://img.shields.io/amo/d/web-editorconfig?logo=firefox&logoColor=white&logoSize=auto&labelColor=%23FF7139&color=black -->
 
 <!--link-definitions-end-->
 
-<!--markdownlint-disable-file MD033 MD041-->
+<!--markdownlint-disable-file MD013 MD033 MD041-->
