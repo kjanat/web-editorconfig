@@ -29,10 +29,11 @@ export default defineConfig({
 		// Exclude from sources ZIP (Firefox review)
 		excludeSources: ['**/_*', '**/*.pem', '**/screenshots/**']
 	},
-	vite: () => ({
+	vite: (env) => ({
 		build: {
-			minify: process.env.UNMINIFIED === 'true' ? false : undefined,
-			cssMinify: process.env.UNMINIFIED === 'true' ? false : undefined
+			// Disable minification for Firefox (required for Mozilla Add-ons review)
+			minify: env.browser === 'firefox' ? false : undefined,
+			cssMinify: env.browser === 'firefox' ? false : undefined
 		}
 	})
 	// webExt: {
