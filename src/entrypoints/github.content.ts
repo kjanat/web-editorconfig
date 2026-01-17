@@ -1,4 +1,4 @@
-import { tabWidthStore } from '@/lib/tab-width-store';
+import { tabWidthStore } from '@/utils/tab-width-store';
 
 export default defineContentScript({
 	matches: ['*://github.com/*'],

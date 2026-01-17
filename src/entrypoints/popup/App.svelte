@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { on } from 'svelte/events';
 	import iconUrl from '@/assets/icon.svg';
-	import { tabWidthState } from '@/lib/tab-width-state.svelte';
+	import { tabWidthState } from '@/utils/tab-width-state.svelte';
 
 	const DIGIT_MAP: Partial<Record<number, string[]>> = {
 		0: ['a', 'b', 'c', 'd', 'e', 'f'],
